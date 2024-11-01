@@ -1,2 +1,1 @@
-# UBF
-Universal Barrier Functions for Safety and Stability
+# Universal Barrier Functions for Safety and Stability
