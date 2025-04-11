@@ -1,3 +1,35 @@
+Metadata-Version: 2.4
+Name: ubf
+Version: 0.1.0
+Summary: Universal Barrier Function (UBF) - A framework for implementing UBF methods
+Home-page: https://github.com/Vrushabbh27/ubf
+Author: Vrushabh Zinage, Efstathios Bakolas
+Author-email: vrushabh.zinage@gmail.com
+Project-URL: Bug Tracker, https://github.com/Vrushabbh27/ubf/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.19.0
+Requires-Dist: matplotlib>=3.3.0
+Requires-Dist: cvxpy>=1.1.0
+Requires-Dist: scipy>=1.5.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 # Universal Barrier Function (UBF) Framework
 
 A Python package implementing the Universal Barrier Function (UBF) methodology for safety-critical control systems.

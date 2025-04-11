@@ -1,151 +1,9 @@
-# Universal Barrier Function (UBF) Framework
-
-A Python package implementing the Universal Barrier Function (UBF) methodology for safety-critical control systems.
-
-*Authors: Vrushabh Zinage, Efstathios Bakolas*
-
-## Overview
-
-The Universal Barrier Function (UBF) framework provides a general, modular approach to implementing barrier function-based safety controllers for dynamic systems. The package is designed to be highly configurable, allowing users to easily replace all tuning parameters, system dynamics, and safety constraints to adapt the framework to any system.
-
-Key features:
-- General framework for implementing UBF methods
-- Support for higher-order barrier functions
-- Smooth composition of multiple safety constraints
-- Numerical methods for computing Jacobians and performing integration
-- Example implementation for a 3D quadrotor system
-
-## Installation
-
-### From PyPI (recommended)
-
-```bash
-pip install ubf
-```
-
-### From source
-
-Clone the repository and install in development mode:
-
-```bash
-git clone https://github.com/Vrushabbh27/ubf.git
-cd ubf
-pip install -e .
-```
-
-## Dependencies
-
-The package requires the following dependencies:
-- numpy (>= 1.19.0)
-- matplotlib (>= 3.3.0)
-- cvxpy (>= 1.1.0)
-- scipy (>= 1.5.0)
-
-These will be automatically installed when using pip.
-
-## Usage
-
-### Basic Usage
-
-```python
-import numpy as np
-from ubf.core import ubf_core
-from ubf.numerics import jacobian, integration
-from ubf.systems import quadrotor
-
-# Run the quadrotor example
-quadrotor.main()
-```
-
-### Core Components
-
-The framework is organized into the following main components:
-
-1. **Core UBF Logic (`ubf.core.ubf_core`)**: Contains the implementation of the universal barrier function methodology, including higher-order barrier functions and the log-sum-exp technique for combining multiple barrier functions.
-
-2. **Numerical Methods (`ubf.numerics`)**: 
-   - `jacobian.py`: Provides finite-difference methods for computing Jacobians.
-   - `integration.py`: Implements forward-Euler integration routines.
-
-3. **System Examples (`ubf.systems`)**: 
-   - `quadrotor.py`: A complete example of a 3D quadrotor simulation using the UBF framework.
-
-### Customizing the Framework
-
-#### Replacing System Dynamics
-
-To use the UBF framework with your own system, you need to define the system dynamics function `f(x, u)` that computes the state derivative:
-
-```python
-def my_system_dynamics(x, u):
-    """
-    Define the state derivative for your system.
-    
-    Args:
-        x: State vector.
-        u: Control input vector.
-        
-    Returns:
-        State derivative vector.
-    """
-    dxdt = np.zeros_like(x)
-    # Define your system dynamics here
-    # ...
-    return dxdt
-```
-
-#### Defining Safety Constraints
-
-Safety constraints are defined as barrier functions `h(x, u)` that should remain positive for safety:
-
-```python
-def my_safety_constraint(x, u):
-    """
-    Define a safety constraint for your system.
-    
-    Args:
-        x: State vector.
-        u: Control input vector.
-        
-    Returns:
-        Scalar value that should remain positive for safety.
-    """
-    # Define your safety constraint
-    # Example: Keep the system within a circle of radius 10
-    return 10**2 - x[0]**2 - x[1]**2
-```
-
-#### Setting UBF Parameters
-
-All key parameters are user-tunable:
-
-```python
-# Simulation parameters
-dt = 0.01                   # Time step
-tf = 100                    # Final simulation time
-
-# Controller parameters
-alpha = 20.0                # Integral controller gain
-
-# UBF parameters
-beta = 15.0                 # UBF smoothness parameter
-m_order = 2                 # Global higher-order UBF order
-alpha_ubf = 5               # UBF K_infty function gain
-frac = 1                    # Exponent for UBF
-
-# Individual UBF orders
-m_order_indiv = [2, 1, 3]   # Order for each individual UBF
-```
-
-#### Complete Example
-
-Here's a complete example of implementing a UBF-QP controller for a 2D system with obstacles:
-
-```python
 """
 Universal Barrier Function based Quadratic Program (UBF-QP) based
 controller for synthesizing safe control inputs under limited actuation
 and for higher order systems.
+
+This file provides a standalone implementation that matches the example in the README.
 
 Author: Vrushabh Zinage
 """
@@ -271,6 +129,8 @@ def c(x, u):
 def dc_du_func(x, u):
     return numerical_jacobian_c_u(c, x, u, n, m)
 
+print("Setting up higher-order UBFs...")
+
 # ===== Higher-Order UBFs =====
 # Helper functions for computing higher-order UBFs
 def compute_dh_dx(h_func, x, u):
@@ -303,6 +163,8 @@ if m_order >= 2:
 # Use h_final based on the order
 h_final = h_orders[m_order - 1]
 
+print("Running simulation...")
+
 # ===== Simulation Setup =====
 # Initialize state and control vectors
 x_current = np.array([1, 1])   # Initial state
@@ -326,6 +188,9 @@ for order in range(m_order):
 
 # ===== Simulation Loop =====
 for k in range(1, num_steps):
+    if k % 50 == 0:
+        print(f"Step {k}/{num_steps-1}")
+        
     # Current state and control
     x = x_current.copy()
     u = u_current.copy()
@@ -382,6 +247,8 @@ for k in range(1, num_steps):
     x_current = x_new
     u_current = u_new
 
+print("Plotting results...")
+
 # ===== Visualization =====
 # Plot Trajectory (for 2D systems)
 plt.figure(figsize=(10, 8))
@@ -409,6 +276,8 @@ plt.title(f'Trajectory with Integral Controller and {m_order}-Order UBF')
 plt.legend()
 plt.grid(True)
 plt.axis('equal')
+plt.tight_layout()
+plt.savefig('readme_example_trajectory.png')
 
 # Plot Higher-Order UBFs
 plt.figure(figsize=(10, 6))
@@ -420,6 +289,7 @@ for order in range(m_order):
     plt.title(f'Universal Barrier Function of Order {order+1}')
     plt.grid(True)
 plt.tight_layout()
+plt.savefig('readme_example_barrier_functions.png')
 
 # Plot Control Inputs Over Time
 plt.figure(figsize=(10, 8))
@@ -431,6 +301,7 @@ for i in range(m):
     plt.title(f'Control Input u_{i+1} Over Time')
     plt.grid(True)
 plt.tight_layout()
+plt.savefig('readme_example_control_inputs.png')
 
 # Plot Control Input Norm Over Time
 plt.figure(figsize=(10, 6))
@@ -440,35 +311,19 @@ plt.xlabel('Time (s)')
 plt.ylabel('||u||')
 plt.title('Norm of Control Input Over Time')
 plt.grid(True)
-plt.show()
-```
+plt.tight_layout()
+plt.savefig('readme_example_control_norm.png')
 
-## Quadrotor Example
+# Save all figures
+try:
+    plt.show()
+except:
+    # In case the plot window can't be displayed
+    print("Could not display plot windows, but images were saved to files")
 
-The package includes a complete example of a 3D quadrotor system navigating through an environment with obstacles. The quadrotor is controlled using the UBF framework to ensure safety constraints are maintained.
-
-To run the quadrotor example:
-
-```python
-from ubf.systems import quadrotor
-quadrotor.main()
-```
-
-This will simulate the quadrotor and generate visualizations showing:
-1. The 3D trajectory of the quadrotor
-2. The values of the barrier functions over time
-3. The control inputs over time
-4. The norm of the control input over time
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-
-## Citation
-
-If you use this package in your research, please cite:
-
-```
-Zinage, V., & Bakolas, E. (2023). Universal Barrier Functions for Safety and Stability. [To be submitted].
-``` 
+print("Example complete!")
+print("Plot files saved:")
+print("- readme_example_trajectory.png")
+print("- readme_example_barrier_functions.png")
+print("- readme_example_control_inputs.png")
+print("- readme_example_control_norm.png") 
