@@ -1,9 +1,5 @@
 # Universal Barrier Functions (UBF) 
 
-A Python package implementing the Universal Barrier Function (UBF) methodology for safety-critical control systems.
-
-## Overview
-
 The Universal Barrier Function (UBF) framework provides a general, modular approach to implementing barrier function-based safety controllers for dynamic systems. The package is designed to be highly configurable, allowing users to easily replace all tuning parameters, system dynamics, and safety constraints to adapt the framework to any system.
 
 
