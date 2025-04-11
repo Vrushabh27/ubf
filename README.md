@@ -191,7 +191,7 @@ def h2(x, u):
     return (x[0]-1.5)**2 + (x[1]-1.5)**2 - 0.25
 
 def h3(x, u):
-    # Control input constraint (||u|| <= sqrt(200))
+    # Input constraint (||u|| <= sqrt(200))
     return 200 - np.dot(u, u)
 
 h_funcs = [h1, h2, h3]
@@ -246,7 +246,7 @@ def forward_euler_integration(x_initial, u, f_handle, N_steps, Delta_tau):
     return x
 
 # ===== Constructing the Universal Barrier Function (UBF) =====
-# Define the UBF using the Log-Sum-Exp trick
+# Define the UBF using the Log-Sum-Exp functions
 def h_ubf(x, u):
     return log_sum_exp(beta, h_funcs, x, u) / beta + (np.log(num_ubfs) / beta)
 
