@@ -2,7 +2,6 @@
 
 The Universal Barrier Function (UBF) framework provides a general, modular approach to implementing barrier function-based safety controllers for dynamic systems. The package is designed to be highly configurable, allowing users to easily replace all tuning parameters, system dynamics, and safety constraints to adapt the framework to any system.
 
-
 ## Installation
 
 ### From PyPI (recommended)
@@ -16,7 +15,7 @@ pip install ubf
 Clone the repository and install in development mode:
 
 ```bash
-git clone https://github.com/Vrushabbh27/ubf.git
+git clone https://github.com/Vrushabh27/ubf.git
 cd ubf
 pip install -e .
 ```
