@@ -11,9 +11,9 @@ setup(
     description="Universal Barrier Function (UBF) - A framework for implementing UBF methods",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Vrushabbh27/ubf",
+    url="https://github.com/Vrushabh27/ubf",
     project_urls={
-        "Bug Tracker": "https://github.com/Vrushabbh27/ubf/issues",
+        "Bug Tracker": "https://github.com/Vrushabh27/ubf/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
