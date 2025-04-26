@@ -1,6 +1,6 @@
 # Universal Barrier Functions (UBF) 
 
-The Universal Barrier Function (UBF) framework provides a general, modular approach to synthesize safe and stabilizing controllers for general nonlinear systems under limited actuation. The package is designed to be highly configurable, allowing users to easily replace all tuning parameters, system dynamics, and safety/input constraints to adapt the framework to any system.
+The Universal Barrier Function (UBF) framework provides a general approach to synthesize safe and stabilizing controllers for general nonlinear systems under limited actuation. The package is designed to be highly configurable, allowing users to easily replace all tuning parameters, system dynamics, and safety/input constraints to adapt the framework to any system.
 
 ## Installation
 
